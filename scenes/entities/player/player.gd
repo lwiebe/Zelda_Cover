@@ -36,10 +36,14 @@ func move_logic(delta) -> void:
 		vel_2d = vel_2d.limit_length(speed)
 		velocity.x = vel_2d.x
 		velocity.z = vel_2d.y
+		$GodetteSkin/AnimationPlayer.current_animation = 'Running_B'
+		var target_angle = -movement_input.angle() + PI/2
+		$GodetteSkin.rotation.y = rotate_toward($GodetteSkin.rotation.y, target_angle, 6.0 * delta)
 	else:
 		vel_2d = vel_2d.move_toward(Vector2.ZERO, base_speed * 4.0 * delta)
 		velocity.x = vel_2d.x
 		velocity.z = vel_2d.y
+		$GodetteSkin/AnimationPlayer.current_animation = 'Idle'
 	
 	
 func jump_logic(delta) -> void:
