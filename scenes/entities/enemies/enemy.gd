@@ -7,6 +7,7 @@ extends CharacterBody3D
 @onready var skin = get_node('skin')
 
 @export var walk_speed := 2.0
+@export var speed = walk_speed
 var speed_modifier := 1.0
 @export var notice_radius := 30.0
 @export var attack_radius := 3.0
@@ -20,7 +21,7 @@ func move_to_player(delta):
 		var target_angle = -target_vec2.angle() + PI/2
 		rotation.y = rotate_toward(rotation.y, target_angle, delta * 6.0)
 		if position.distance_to(player.position) > attack_radius:
-			velocity = Vector3(target_vec2.x, 0, target_vec2.y) * walk_speed * speed_modifier
+			velocity = Vector3(target_vec2.x, 0, target_vec2.y) * speed * speed_modifier
 			move_state_machine.travel('walk')
 		else:
 			velocity = Vector3.ZERO

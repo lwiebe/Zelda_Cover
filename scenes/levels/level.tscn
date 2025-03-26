@@ -35,10 +35,10 @@ shadow_enabled = true
 [node name="Entities" type="Node3D" parent="."]
 
 [node name="Player" parent="Entities" instance=ExtResource("1_377w7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.3389, 0, -17.4671)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.63474, -2.67029e-05, 2.207)
 
 [node name="Boss" parent="Entities" instance=ExtResource("2_bovvr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.6273, 0, 17.354)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.99253, 0, 5.96615)
 
 [node name="Environment" type="Node3D" parent="."]
 
