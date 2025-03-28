@@ -35,16 +35,17 @@ func defend(forward: bool) -> void:
 	tween.tween_method(_defend_change, 1.0 - float(forward), float(forward), 0.25)
 	
 	
+	
 func _defend_change(value: float) -> void:
 	$AnimationTree.set("parameters/ShieldBlend/blend_amount", value)
 
 
 func switch_weapon(weapon_active: bool) -> void:
 	if weapon_active:
-		$Rig/Skeleton3D/RightHandSlot/sword_1handed2.show()
+		$Rig/Skeleton3D/RightHandSlot/Sword.show()
 		$Rig/Skeleton3D/RightHandSlot/wand2.hide()
 	else:
-		$Rig/Skeleton3D/RightHandSlot/sword_1handed2.hide()
+		$Rig/Skeleton3D/RightHandSlot/Sword.hide()
 		$Rig/Skeleton3D/RightHandSlot/wand2.show()
 
 
@@ -60,13 +61,15 @@ func hit() -> void:
 	$AnimationTree.set("parameters/AttackOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
 	attacking = false
 
-
 func change_face(expression):
 	face_material.uv1_offset = faces[expression]
-
 
 func _on_blink_timer_timeout() -> void:
 	change_face('blink')
 	await get_tree().create_timer(0.2).timeout
 	change_face('default')
 	$BlinkTimer.wait_time = rng.randf_range(1.5, 4.0)
+
+
+func can_damage(value: bool):
+	$Rig/Skeleton3D/RightHandSlot/Sword.can_damage = value
