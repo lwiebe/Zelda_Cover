@@ -10,7 +10,7 @@ const simple_attacks = {
 var spinning := false
 var can_damage_toggle := false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	attack_logic()
 
 func _physics_process(delta: float) -> void:
@@ -50,7 +50,7 @@ func melee_attack_animation() -> void:
 	$AnimationTree.set("parameters/AttackOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 
 
-func _on_area_3d_body_entered(body: Node3D) -> void:
+func _on_area_3d_body_entered(_body: Node3D) -> void:
 	if spinning:
 		await get_tree().create_timer(rng.randf_range(1.0, 2.0)).timeout
 		var tween = create_tween()

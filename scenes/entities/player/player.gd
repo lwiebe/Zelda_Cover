@@ -20,6 +20,7 @@ var speed_modifier := 1.0
 @onready var camera = $CameraController/Camera3D
 
 var movement_input := Vector2.ZERO
+var last_movement_input := Vector2(0,1)
 var defend := false:
 	set(value):
 		if not defend and value:
@@ -28,6 +29,8 @@ var defend := false:
 			skin.defend(false)
 		defend = value
 var weapon_active := true
+
+signal cast_spell(type: String, pos: Vector3, direction: Vector2, size: float)
 
 func _ready() -> void:
 	skin.switch_weapon(weapon_active)
@@ -62,6 +65,9 @@ func move_logic(delta) -> void:
 		velocity.x = vel_2d.x
 		velocity.z = vel_2d.y
 		skin.set_move_state('Idle')
+		
+	if movement_input:
+		last_movement_input = movement_input
 	
 	
 func jump_logic(delta) -> void:
@@ -109,3 +115,7 @@ func do_squash_and_scretch(value: float, duration: float = 0.1):
 	var tween = create_tween()
 	tween.tween_property(skin, "squash_and_stretch", value, duration)
 	tween.tween_property(skin, "squash_and_stretch", 1.0, duration * 1.8).set_ease(Tween.EASE_OUT)
+
+
+func shoot_fireball(pos: Vector3) -> void:
+	cast_spell.emit('fireball', pos, last_movement_input , 1.0)

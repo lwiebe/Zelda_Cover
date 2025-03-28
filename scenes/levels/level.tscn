@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://c43cbqen231ad"]
 
 [ext_resource type="PackedScene" uid="uid://cl28sn71jq1au" path="res://scenes/entities/player/player.tscn" id="1_377w7"]
+[ext_resource type="Script" uid="uid://dr75a8cecm2o0" path="res://scenes/levels/level.gd" id="1_xb4v1"]
 [ext_resource type="PackedScene" uid="uid://dc3fkwq3hukwn" path="res://scenes/entities/enemies/skeleton_mage.tscn" id="3_xb4v1"]
-[ext_resource type="PackedScene" uid="uid://dbu2k8i6yutr0" path="res://scenes/entities/enemies/boss.tscn" id="4_xb4v1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_377w7"]
 sky_top_color = Color(0.8, 0.92549, 0.996078, 1)
@@ -25,6 +25,7 @@ size = Vector3(40, 0.5, 40)
 size = Vector3(10, 10, 1)
 
 [node name="Level" type="Node3D"]
+script = ExtResource("1_xb4v1")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_b2cq8")
@@ -40,9 +41,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.63474, -2.67029e-05, 2.207)
 
 [node name="SkeletonMage" parent="Entities" instance=ExtResource("3_xb4v1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.44075)
-
-[node name="Boss" parent="Entities" instance=ExtResource("4_xb4v1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.8634, 0, 11.6291)
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -63,3 +61,7 @@ size = Vector3(10, 10, 1)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/StaticBody3D2"]
 shape = SubResource("BoxShape3D_bovvr")
+
+[node name="Projectiles" type="Node3D" parent="."]
+
+[connection signal="cast_spell" from="Entities/Player" to="." method="_on_player_cast_spell"]
