@@ -67,7 +67,7 @@ func move_logic(delta) -> void:
 		skin.set_move_state('Idle')
 		
 	if movement_input:
-		last_movement_input = movement_input
+		last_movement_input = movement_input.normalized()
 	
 	
 func jump_logic(delta) -> void:

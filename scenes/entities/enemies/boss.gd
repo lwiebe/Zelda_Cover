@@ -43,7 +43,12 @@ func range_attack_animation() -> void:
 	stop_movement(1.5,1.5)
 	attack_animations.animation = simple_attacks['range']
 	$AnimationTree.set("parameters/AttackOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-		
+
+func shoot_fireball() -> void:
+	var direction = (player.position - position).normalized()
+	var dir_2d = Vector2(direction.x, direction.z)
+	var pos = $skin/Rig/Skeleton3D/Nagonford_Axe/Nagonford_Axe/Marker3D .global_position
+	cast_spell.emit('fireball', pos, dir_2d, 1.0)
 
 func melee_attack_animation() -> void:
 	attack_animations.animation = simple_attacks['slice' if rng.randi() % 2 else 'spin']

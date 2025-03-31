@@ -19,6 +19,7 @@ var squash_and_stretch := 1.0:
 		var negative = 1.0 + (1.0 - squash_and_stretch)
 		skin.scale = Vector3(negative,squash_and_stretch,negative)
 
+signal cast_spell(type: String, pos: Vector3, direction: Vector2, size: float)
 
 func move_to_player(delta):
 	if position.distance_to(player.position) < notice_radius:
