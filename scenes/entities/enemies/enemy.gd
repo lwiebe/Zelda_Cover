@@ -11,7 +11,12 @@ extends CharacterBody3D
 var speed_modifier := 1.0
 @export var notice_radius := 30.0
 @export var attack_radius := 3.0
-
+var health = 5:
+	set(value):
+		health = value
+		if health <= 0:
+			queue_free()
+		
 var rng = RandomNumberGenerator.new()
 var squash_and_stretch := 1.0:
 	set(value):
@@ -19,6 +24,7 @@ var squash_and_stretch := 1.0:
 		var negative = 1.0 + (1.0 - squash_and_stretch)
 		skin.scale = Vector3(negative,squash_and_stretch,negative)
 
+@warning_ignore("unused_signal")
 signal cast_spell(type: String, pos: Vector3, direction: Vector2, size: float)
 
 func move_to_player(delta):
@@ -44,6 +50,7 @@ func hit() -> void:
 	if not $Timers/InvulTimer.time_left:
 		do_squash_and_scretch(1.2, 0.15)
 		$Timers/InvulTimer.start()
+		health -= 1
 
 func do_squash_and_scretch(value: float, duration: float = 0.1):
 	var tween = create_tween()

@@ -47,8 +47,8 @@ func range_attack_animation() -> void:
 func shoot_fireball() -> void:
 	var direction = (player.position - position).normalized()
 	var dir_2d = Vector2(direction.x, direction.z)
-	var pos = $skin/Rig/Skeleton3D/Nagonford_Axe/Nagonford_Axe/Marker3D .global_position
-	cast_spell.emit('fireball', pos, dir_2d, 1.0)
+	var pos = $skin/Rig/Skeleton3D/Nagonford_Axe/Nagonford_Axe/Marker3D.global_position
+	cast_spell.emit('fireball', pos, dir_2d, 3.0)
 
 func melee_attack_animation() -> void:
 	attack_animations.animation = simple_attacks['slice' if rng.randi() % 2 else 'spin']
@@ -68,8 +68,8 @@ func _on_area_3d_body_entered(_body: Node3D) -> void:
 
 func hit():
 	if not $Timers/InvulTimer.time_left:
-		print('boss hit')
 		$Timers/InvulTimer.start()
+		health -= 1
 
 
 func can_damage(value: bool) -> void:
