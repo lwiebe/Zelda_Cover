@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://byvti62bvda42"]
+
+[ext_resource type="PackedScene" uid="uid://c43cbqen231ad" path="res://scenes/levels/level.tscn" id="1_fl1qg"]
+[ext_resource type="PackedScene" uid="uid://cxlf36h0q7bqw" path="res://scenes/levels/overworld_skin.tscn" id="2_l7h5l"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7h5l"]
+albedo_color = Color(0, 0.533333, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tbicr"]
+material = SubResource("StandardMaterial3D_l7h5l")
+size = Vector2(600, 250)
+
+[node name="OverWorld" instance=ExtResource("1_fl1qg")]
+
+[node name="Player" parent="Entities" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.38449, 13.1723, -83.2907)
+
+[node name="overworld_environment" parent="Environment" index="0" instance=ExtResource("2_l7h5l")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -43.4781, 216.781)
+mesh = SubResource("PlaneMesh_tbicr")
