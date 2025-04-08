@@ -1,8 +1,11 @@
-[gd_scene load_steps=26 format=3 uid="uid://byvti62bvda42"]
+[gd_scene load_steps=35 format=3 uid="uid://byvti62bvda42"]
 
 [ext_resource type="PackedScene" uid="uid://c43cbqen231ad" path="res://scenes/levels/level.tscn" id="1_fl1qg"]
+[ext_resource type="Script" uid="uid://dgw6awrr8mqmg" path="res://scenes/levels/overworld.gd" id="2_8hgyr"]
 [ext_resource type="PackedScene" uid="uid://cxlf36h0q7bqw" path="res://scenes/levels/overworld_skin.tscn" id="2_l7h5l"]
+[ext_resource type="PackedScene" uid="uid://b12ev4vxhoac8" path="res://scenes/entities/other/bird.tscn" id="2_vnvtj"]
 [ext_resource type="PackedScene" uid="uid://busa8h5c44075" path="res://graphics/environment/objects/platoon.glb" id="4_uhu12"]
+[ext_resource type="PackedScene" uid="uid://dc3fkwq3hukwn" path="res://scenes/entities/enemies/skeleton_mage.tscn" id="4_xahul"]
 [ext_resource type="PackedScene" uid="uid://b7fri258q6w5x" path="res://graphics/environment/objects/rocks4.glb" id="5_xr8og"]
 [ext_resource type="PackedScene" uid="uid://lforr8lmeko6" path="res://graphics/environment/objects/rock5.glb" id="6_i8q5l"]
 [ext_resource type="PackedScene" uid="uid://cnx8e4v6j3cwv" path="res://graphics/environment/objects/tree4.glb" id="7_uhu12"]
@@ -24,6 +27,50 @@
 [ext_resource type="PackedScene" uid="uid://ml08shfcjeyy" path="res://graphics/environment/objects/shrine.glb" id="21_n0hg8"]
 [ext_resource type="PackedScene" uid="uid://fxi3picm86d8" path="res://graphics/environment/objects/lantern.glb" id="23_vnvtj"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_n0hg8"]
+sky_top_color = Color(0.440456, 0.749976, 1, 1)
+sky_horizon_color = Color(0.889387, 0.959017, 1.01252, 1)
+ground_horizon_color = Color(0.889387, 0.959017, 1.01252, 1)
+
+[sub_resource type="Sky" id="Sky_vnvtj"]
+sky_material = SubResource("ProceduralSkyMaterial_n0hg8")
+
+[sub_resource type="Environment" id="Environment_8hgyr"]
+background_mode = 1
+background_color = Color(0.482353, 0.635294, 0.901961, 1)
+sky = SubResource("Sky_vnvtj")
+ambient_light_source = 2
+ambient_light_color = Color(0.968627, 0.835294, 0.858824, 1)
+ambient_light_energy = 0.6
+ssao_enabled = true
+ssil_enabled = true
+glow_enabled = true
+glow_intensity = 0.09
+glow_strength = 0.85
+glow_blend_mode = 1
+fog_enabled = true
+fog_light_color = Color(0.635294, 0.87451, 0.890196, 1)
+fog_density = 0.0001
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.005
+adjustment_enabled = true
+adjustment_brightness = 1.1
+adjustment_contrast = 1.2
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_n0hg8"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 150.0
+dof_blur_far_transition = 250.0
+dof_blur_amount = 0.06
+
+[sub_resource type="Curve3D" id="Curve3D_8hgyr"]
+closed = true
+_data = {
+"points": PackedVector3Array(-67.9363, 11.5227, 44.5746, 67.9363, -11.5227, -44.5746, -103.247, 0.264404, 34.3841, -70.5287, 8.63696, -45.3751, 70.5287, -8.63696, 45.3751, 139.308, 0.260315, 92.1806, 58.2115, -10.507, -55.6129, -58.2115, 10.507, 55.6129, 190.419, 0.264404, 247.673, 90.9618, -12.0291, 34.0243, -90.9618, 12.0291, -34.0243, -82.5912, 0.264404, 330.744, 33.995, -5.86731, -25.0898, -33.995, 5.86731, 25.0898, -189.46, 0.264404, 237.346, -54.4561, 11.3323, 93.432, 54.4561, -11.3323, -93.432, -188.488, -0.951355, 116.303),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 6
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l7h5l"]
 albedo_color = Color(0, 0.533333, 1, 1)
 
@@ -31,13 +78,39 @@ albedo_color = Color(0, 0.533333, 1, 1)
 material = SubResource("StandardMaterial3D_l7h5l")
 size = Vector2(600, 250)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_vnvtj"]
+size = Vector3(1, 9.41992, 7.02148)
+
 [node name="OverWorld" instance=ExtResource("1_fl1qg")]
+script = ExtResource("2_8hgyr")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="0"]
+environment = SubResource("Environment_8hgyr")
+camera_attributes = SubResource("CameraAttributesPractical_n0hg8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_color = Color(0.941176, 0.941176, 0.941176, 1)
+shadow_enabled = true
+shadow_opacity = 0.9
+shadow_blur = 4.5
 
 [node name="Entities" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.101196, -0.264404, 0.29863)
 
 [node name="Player" parent="Entities" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.35975, 13.1723, -85.6849)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -169.319, -25.4467, 301.973)
+
+[node name="Path3D" type="Path3D" parent="Entities" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 60.1872, 0)
+curve = SubResource("Curve3D_8hgyr")
+
+[node name="Bird" parent="Entities/Path3D" index="0" instance=ExtResource("2_vnvtj")]
+transform = Transform3D(-0.548581, 0.117392, 0.827811, 7.45056e-09, 0.99009, -0.140405, -0.836094, -0.0770239, -0.543146, -103.247, 0.264404, 34.3841)
+use_model_front = true
+
+[node name="SkeletonMage" parent="Entities" index="2" instance=ExtResource("4_xahul")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -175.407, -16.1606, 285.033)
 
 [node name="overworld_environment" parent="Environment" index="0" instance=ExtResource("2_l7h5l")]
 
@@ -193,5 +266,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.7326, 12.8051, -89.7675)
 [node name="castle" parent="Environment" index="7" instance=ExtResource("16_61nx7")]
 transform = Transform3D(0.93781, 0, 0.347148, 0, 1, 0, -0.347148, 0, 0.93781, -178.412, -31.1308, 315.662)
 
+[node name="CastleArea" type="Area3D" parent="Environment/castle" index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.4606, 0, -0.383041)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/castle/CastleArea" index="0"]
+transform = Transform3D(0.943802, 0, 0.330515, 0, 1, 0, -0.330515, 0, 0.943802, 26.8809, 6.3069, -7.19638)
+shape = SubResource("BoxShape3D_vnvtj")
+
 [node name="lantern" parent="Environment" index="8" instance=ExtResource("23_vnvtj")]
 transform = Transform3D(-0.969407, 0, 0.24546, 0, 1, 0, -0.24546, 0, -0.969407, 13.0509, 12.5917, -85.4286)
+
+[connection signal="body_entered" from="Environment/castle/CastleArea" to="." method="_on_castle_area_body_entered"]

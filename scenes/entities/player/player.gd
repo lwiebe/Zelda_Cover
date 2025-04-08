@@ -72,6 +72,7 @@ func _physics_process(delta: float) -> void:
 	#if Input.is_action_just_pressed("ui_accept"):
 		#hit()
 	move_and_slide()
+	physics_logic()
 	
 	
 func move_logic(delta) -> void:
@@ -83,7 +84,7 @@ func move_logic(delta) -> void:
 		var speed = run_speed if is_running else base_speed
 		speed = defend_speed if defend else speed
 		
-		vel_2d += movement_input * base_speed * delta * 0.8
+		vel_2d += movement_input * speed * delta * 8.0
 		vel_2d = vel_2d.limit_length(speed) * speed_modifier
 		velocity.x = vel_2d.x
 		velocity.z = vel_2d.y
@@ -169,3 +170,10 @@ func _on_energy_recovery_timer_timeout() -> void:
 
 func _on_stamina_recovery_timer_timeout() -> void:
 	stamina += 1
+
+
+func physics_logic() -> void:
+	for i in get_slide_collision_count():
+		var collider = get_slide_collision(i).get_collider()
+		if collider is RigidBody3D:
+			collider.apply_central_impulse(-get_slide_collision(i).get_normal())
