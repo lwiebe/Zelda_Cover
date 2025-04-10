@@ -19,6 +19,7 @@ var speed_modifier := 1.0
 
 @onready var camera = $CameraController/Camera3D
 @onready var ui = $UI
+@onready var run_particles = $RunParticles
 
 var movement_input := Vector2.ZERO
 var last_movement_input := Vector2(0,1)
@@ -66,6 +67,7 @@ func _ready() -> void:
 	ui.setup(health)
 
 func _physics_process(delta: float) -> void:
+	RenderingServer.global_shader_parameter_set("player_position", global_position)
 	move_logic(delta)
 	jump_logic(delta)
 	ability_logic()
@@ -99,6 +101,8 @@ func move_logic(delta) -> void:
 		
 	if movement_input:
 		last_movement_input = movement_input.normalized()
+		
+	run_particles.emitting = is_on_floor() and is_running and movement_input != Vector2.ZERO
 	
 	
 func jump_logic(delta) -> void:
