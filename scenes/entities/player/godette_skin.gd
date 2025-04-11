@@ -17,25 +17,26 @@ const faces = {
 }
 var rng = RandomNumberGenerator.new()
 
+
 func set_move_state(state_name: String) -> void:
 	move_state_machine.travel(state_name)
-	
-	
+
+
 func attack() -> void:
 	if not attacking:
 		attack_state_machine.travel('Slice' if $SecondAttackTimer.time_left else 'Chop')
 		$AnimationTree.set("parameters/AttackOneShot/request",AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-	
-	
+
+
 func attack_toggle(value: bool):
 	attacking = value
-	
+
+
 func defend(forward: bool) -> void:
 	var tween = create_tween()
 	tween.tween_method(_defend_change, 1.0 - float(forward), float(forward), 0.25)
-	
-	
-	
+
+
 func _defend_change(value: float) -> void:
 	$AnimationTree.set("parameters/ShieldBlend/blend_amount", value)
 
@@ -58,14 +59,25 @@ func cast_spell() -> void:
 func shoot_magic() -> void:
 	get_parent().shoot_magic($Rig/Skeleton3D/RightHandSlot/wand2/wand/Marker3D.global_position)
 
+
 func hit() -> void:
 	extra_animation.animation = 'Hit_A'
 	$AnimationTree.set("parameters/ExtraOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	$AnimationTree.set("parameters/AttackOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
 	attacking = false
+	var tween = create_tween()
+	tween.tween_method(_hit_effect, 0.0, 0.5, 0.3)
+	tween.tween_method(_hit_effect, 0.5, 0.0, 0.1)
+
+
+func _hit_effect(value: float) -> void:
+	$Rig/Skeleton3D/Godette_Body.material_overlay.set_shader_parameter('color', Color.FIREBRICK)
+	$Rig/Skeleton3D/Godette_Body.material_overlay.set_shader_parameter('alpha', value)
+
 
 func change_face(expression):
 	face_material.uv1_offset = faces[expression]
+
 
 func _on_blink_timer_timeout() -> void:
 	change_face('blink')
@@ -76,3 +88,14 @@ func _on_blink_timer_timeout() -> void:
 
 func can_damage(value: bool):
 	$Rig/Skeleton3D/RightHandSlot/Sword.can_damage = value
+
+
+func heal_tween() -> void:
+	var tween = create_tween()
+	tween.tween_method(_heal_effect, 0.0, 0.7, 0.5)
+	tween.tween_method(_heal_effect, 0.7, 0.0, 0.2)
+
+
+func _heal_effect(value: float) -> void:
+	$Rig/Skeleton3D/Godette_Body.material_overlay.set_shader_parameter('color', Color.LIGHT_GREEN)
+	$Rig/Skeleton3D/Godette_Body.material_overlay.set_shader_parameter('alpha', value)
